@@ -23,13 +23,13 @@ namespace LibraryDemoApi.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<Author>> Get()
         {
-            return context.Authors.ToList();
+            return context.Authors.Include(x => x.Books).ToList();
         }
 
         [HttpGet("{id}", Name = "ObtainResource")]
         public ActionResult<Author> Get(int id)
         {
-            var author = context.Authors.FirstOrDefault(x => x.Id == id);
+            var author = context.Authors.Include(x => x.Books).FirstOrDefault(x => x.Id == id);
 
             if(null == author)
             {
