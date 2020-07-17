@@ -27,9 +27,9 @@ namespace LibraryDemoApi.Controllers
         }
 
         [HttpGet("{id}", Name = "ObtainResource")]
-        public ActionResult<Author> Get(int id)
+        public async Task<ActionResult<Author>> Get(int id)
         {
-            var author = context.Authors.Include(x => x.Books).FirstOrDefault(x => x.Id == id);
+            var author = await context.Authors.Include(x => x.Books).FirstOrDefaultAsync(x => x.Id == id);
 
             if(null == author)
             {
