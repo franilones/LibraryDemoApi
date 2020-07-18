@@ -9,8 +9,15 @@ namespace LibraryDemoApi.Entities
     public class Author
     {
         public int Id { get; set; }
+        [StringLength(15, MinimumLength = 1, ErrorMessage = "Name has to contain at least {1} character")]
         [Required]
         public string Name { get; set; }
+        [Range(16, 110)]
+        public int Edad { get; set; }
+        [CreditCard]
+        public string CreditCard { get; set; }
+        [Url]
+        public string Url { get; set; }
         public List<Book> Books { get; set; }
     }
 }
