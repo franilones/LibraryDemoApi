@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LibraryDemoApi.helpers;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -9,6 +10,7 @@ namespace LibraryDemoApi.Entities
     public class Author
     {
         public int Id { get; set; }
+        [StartWithCapital]
         [StringLength(15, MinimumLength = 1, ErrorMessage = "Name has to contain at least {1} character")]
         [Required]
         public string Name { get; set; }
