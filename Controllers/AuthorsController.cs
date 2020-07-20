@@ -2,6 +2,7 @@
 using LibraryDemoApi.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,15 +15,19 @@ namespace LibraryDemoApi.Controllers
     public class AuthorsController : ControllerBase
     {
         private readonly ApplicationDBContext context;
+        private readonly ILogger<AuthorsController> logger;
+
         //Dependency injection 
-        public AuthorsController(ApplicationDBContext context)
+        public AuthorsController(ApplicationDBContext context, ILogger<AuthorsController> logger)
         {
             this.context = context;
+            this.logger = logger;
         }
 
         [HttpGet]
         public ActionResult<IEnumerable<Author>> Get()
         {
+            logger.LogInformation("Getting actors");
             return context.Authors.Include(x => x.Books).ToList();
         }
 
@@ -33,6 +38,7 @@ namespace LibraryDemoApi.Controllers
 
             if(null == author)
             {
+                logger.LogWarning($"Actor with ID: {id} not found");
                 return NotFound();
             }
             return author;
