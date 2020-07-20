@@ -25,8 +25,18 @@ namespace LibraryDemoApi.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("CreditCard")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Edad")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .IsRequired()
+                        .HasColumnType("nvarchar(15)")
+                        .HasMaxLength(15);
+
+                    b.Property<string>("Url")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");

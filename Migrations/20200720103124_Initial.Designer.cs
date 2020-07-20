@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LibraryDemoApi.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20200714144838_initial")]
-    partial class initial
+    [Migration("20200720103124_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -27,8 +27,18 @@ namespace LibraryDemoApi.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("CreditCard")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Edad")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .IsRequired()
+                        .HasColumnType("nvarchar(15)")
+                        .HasMaxLength(15);
+
+                    b.Property<string>("Url")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
