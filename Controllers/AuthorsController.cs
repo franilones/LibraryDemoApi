@@ -1,5 +1,6 @@
 ﻿using LibraryDemoApi.Context;
 using LibraryDemoApi.Entities;
+using LibraryDemoApi.helpers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -25,6 +26,7 @@ namespace LibraryDemoApi.Controllers
         }
 
         [HttpGet]
+        [ServiceFilter(typeof(FilterDemo))]
         public ActionResult<IEnumerable<Author>> Get()
         {
             logger.LogInformation("Getting actors");
