@@ -3,6 +3,7 @@ using LibraryDemoApi.Context;
 using LibraryDemoApi.Entities;
 using LibraryDemoApi.helpers;
 using LibraryDemoApi.Models;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -66,31 +67,60 @@ namespace LibraryDemoApi.Controllers
         }
 
         [HttpPut("{id}")]
-        public ActionResult Put(int id, [FromBody] Author value)
+        public async Task<ActionResult> Put(int id, [FromBody] AuthorCreateDTO authorDTO)
         {
-            if(id != value.Id)
+            var author = mapper.Map<Author>(authorDTO);
+            author.Id = id;
+
+            context.Entry(author).State = EntityState.Modified;
+            await context.SaveChangesAsync();
+            return NoContent();
+        }
+
+        [HttpPatch("{id}")]
+        public async Task<ActionResult> Patch(int id, [FromBody] JsonPatchDocument<AuthorCreateDTO> patchDocument)
+        {
+            if(null == patchDocument)
             {
                 return BadRequest();
             }
 
-            context.Entry(value).State = EntityState.Modified;
-            context.SaveChanges();
-            return Ok();
-        }
+            var authorDB = await context.Authors.FirstOrDefaultAsync(x => x.Id == id);
 
-        [HttpDelete("{id}")]
-        public ActionResult<Author> Delete(int id)
-        {
-            var author = context.Authors.FirstOrDefault(x => x.Id == id);
-
-            if(null == author)
+            if(null == authorDB)
             {
                 return NotFound();
             }
 
-            context.Authors.Remove(author);
-            context.SaveChanges();
-            return author;
+            var authorDTO = mapper.Map<AuthorCreateDTO>(authorDB);
+            patchDocument.ApplyTo(authorDTO, ModelState);
+
+            mapper.Map(authorDTO, authorDB);
+
+            var isValid = TryValidateModel(authorDB);
+
+            if (!isValid)
+            {
+                return BadRequest(ModelState);
+            }
+            await context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<Author>> Delete(int id)
+        {
+            var authorId = await context.Authors.Select(x => x.Id).FirstOrDefaultAsync(x => x == id);
+
+            if(default(int) == authorId)
+            {
+                return NotFound();
+            }
+
+            context.Remove(new Author { Id = authorId });
+            await context.SaveChangesAsync();
+            return NoContent();
         }
     }
 }
