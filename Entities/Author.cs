@@ -21,7 +21,7 @@ namespace LibraryDemoApi.Entities
         [Url]
         public string Url { get; set; }
         public List<Book> Books { get; set; }
-
+        public string Identification { get; set; }
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             //Here we can validate the entire model

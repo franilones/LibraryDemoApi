@@ -31,6 +31,9 @@ namespace LibraryDemoApi.Migrations
                     b.Property<int>("Edad")
                         .HasColumnType("int");
 
+                    b.Property<string>("Identification")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(15)")

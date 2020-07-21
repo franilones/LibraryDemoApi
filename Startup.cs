@@ -2,8 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using LibraryDemoApi.Context;
+using LibraryDemoApi.Entities;
 using LibraryDemoApi.helpers;
+using LibraryDemoApi.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -28,6 +31,12 @@ namespace LibraryDemoApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //Add automapper for DTOs
+            services.AddAutoMapper(configuration => {
+                configuration.CreateMap<Author, AuthorDTO>();
+                configuration.CreateMap<Book, BookDTO>();
+            }, typeof(Startup));
+            
             //Obtaining the connection string
             services.AddDbContext<ApplicationDBContext>(options => 
             options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));

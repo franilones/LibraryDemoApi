@@ -1,5 +1,7 @@
-﻿using LibraryDemoApi.Context;
+﻿using AutoMapper;
+using LibraryDemoApi.Context;
 using LibraryDemoApi.Entities;
+using LibraryDemoApi.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -14,20 +16,25 @@ namespace LibraryDemoApi.Controllers
     public class BooksController : ControllerBase
     {
         private readonly ApplicationDBContext context;
-        
-        public BooksController(ApplicationDBContext context)
+        private readonly IMapper mapper;
+
+        public BooksController(ApplicationDBContext context, IMapper mapper)
         {
             this.context = context;
+            this.mapper = mapper;
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<Book>> Get()
+        public ActionResult<IEnumerable<BookDTO>> Get()
         {
-            return context.Books.Include(x => x.Author).ToList();
+            var books = context.Books.Include(x => x.Author).ToList();
+            var booksDTO = mapper.Map<List<BookDTO>>(books);
+
+            return booksDTO;
         }
 
         [HttpGet("{id}", Name = "ObtainBook")]
-        public ActionResult<Book> Get(int id)
+        public ActionResult<BookDTO> Get(int id)
         {
             var book = context.Books.Include(x => x.Author).FirstOrDefault(x => x.Id == id);
 
@@ -36,7 +43,8 @@ namespace LibraryDemoApi.Controllers
                 return NotFound();
             }
 
-            return book;
+            var bookDTO = mapper.Map<BookDTO>(book);
+            return bookDTO;
         }
 
         [HttpPost]

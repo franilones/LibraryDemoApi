@@ -1,6 +1,8 @@
-﻿using LibraryDemoApi.Context;
+﻿using AutoMapper;
+using LibraryDemoApi.Context;
 using LibraryDemoApi.Entities;
 using LibraryDemoApi.helpers;
+using LibraryDemoApi.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -17,24 +19,28 @@ namespace LibraryDemoApi.Controllers
     {
         private readonly ApplicationDBContext context;
         private readonly ILogger<AuthorsController> logger;
+        private readonly IMapper mapper;
 
         //Dependency injection 
-        public AuthorsController(ApplicationDBContext context, ILogger<AuthorsController> logger)
+        public AuthorsController(ApplicationDBContext context, ILogger<AuthorsController> logger, IMapper mapper)
         {
             this.context = context;
             this.logger = logger;
+            this.mapper = mapper;
         }
 
         [HttpGet]
         [ServiceFilter(typeof(FilterDemo))]
-        public ActionResult<IEnumerable<Author>> Get()
+        public ActionResult<IEnumerable<AuthorDTO>> Get()
         {
             logger.LogInformation("Getting actors");
-            return context.Authors.Include(x => x.Books).ToList();
+            var authors = context.Authors.Include(x => x.Books).ToList();
+            var authorsDTO = mapper.Map<List<AuthorDTO>>(authors);
+            return authorsDTO;
         }
 
         [HttpGet("{id}", Name = "ObtainResource")]
-        public async Task<ActionResult<Author>> Get(int id)
+        public async Task<ActionResult<AuthorDTO>> Get(int id)
         {
             var author = await context.Authors.Include(x => x.Books).FirstOrDefaultAsync(x => x.Id == id);
 
@@ -43,7 +49,9 @@ namespace LibraryDemoApi.Controllers
                 logger.LogWarning($"Actor with ID: {id} not found");
                 return NotFound();
             }
-            return author;
+
+            var authorDTO = mapper.Map<AuthorDTO>(author);
+            return authorDTO;
         }
 
         [HttpPost]

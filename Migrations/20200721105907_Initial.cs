@@ -15,7 +15,8 @@ namespace LibraryDemoApi.Migrations
                     Name = table.Column<string>(maxLength: 15, nullable: false),
                     Edad = table.Column<int>(nullable: false),
                     CreditCard = table.Column<string>(nullable: true),
-                    Url = table.Column<string>(nullable: true)
+                    Url = table.Column<string>(nullable: true),
+                    Identification = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {

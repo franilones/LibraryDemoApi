@@ -54,5 +54,7 @@ C:\Users\Fran\Documents\Projects\LibraryDemoApi\bin\Debug\netcoreapp3.1\Microsof
 C:\Users\Fran\Documents\Projects\LibraryDemoApi\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
 C:\Users\Fran\Documents\Projects\LibraryDemoApi\bin\Debug\netcoreapp3.1\Newtonsoft.Json.dll
 C:\Users\Fran\Documents\Projects\LibraryDemoApi\bin\Debug\netcoreapp3.1\Newtonsoft.Json.Bson.dll
+C:\Users\Fran\Documents\Projects\LibraryDemoApi\bin\Debug\netcoreapp3.1\AutoMapper.dll
+C:\Users\Fran\Documents\Projects\LibraryDemoApi\bin\Debug\netcoreapp3.1\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
 C:\Users\Fran\Documents\Projects\LibraryDemoApi\obj\Debug\netcoreapp3.1\LibraryDemoApi.csproj.CoreCompileInputs.cache
 C:\Users\Fran\Documents\Projects\LibraryDemoApi\obj\Debug\netcoreapp3.1\LibraryDemoApi.MvcApplicationPartsAssemblyInfo.cache

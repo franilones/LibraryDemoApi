@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LibraryDemoApi.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20200720103124_Initial")]
+    [Migration("20200721105907_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -32,6 +32,9 @@ namespace LibraryDemoApi.Migrations
 
                     b.Property<int>("Edad")
                         .HasColumnType("int");
+
+                    b.Property<string>("Identification")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()
