@@ -34,6 +34,7 @@ namespace LibraryDemoApi
             //Add automapper for DTOs
             services.AddAutoMapper(configuration => {
                 configuration.CreateMap<Author, AuthorDTO>();
+                configuration.CreateMap<AuthorCreateDTO, Author>();
                 configuration.CreateMap<Book, BookDTO>();
             }, typeof(Startup));
             

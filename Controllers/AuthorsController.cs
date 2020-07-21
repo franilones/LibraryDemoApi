@@ -39,7 +39,7 @@ namespace LibraryDemoApi.Controllers
             return authorsDTO;
         }
 
-        [HttpGet("{id}", Name = "ObtainResource")]
+        [HttpGet("{id}", Name = "ObtainAuthor")]
         public async Task<ActionResult<AuthorDTO>> Get(int id)
         {
             var author = await context.Authors.Include(x => x.Books).FirstOrDefaultAsync(x => x.Id == id);
@@ -55,12 +55,14 @@ namespace LibraryDemoApi.Controllers
         }
 
         [HttpPost]
-        public ActionResult Post([FromBody] Author author)
+        public async Task<ActionResult> Post([FromBody] AuthorCreateDTO authorCreate)
         {
+            var author = mapper.Map<Author>(authorCreate);
             context.Authors.Add(author);
-            context.SaveChanges();
+            await context.SaveChangesAsync();
+            var authorDTO = mapper.Map<AuthorDTO>(author);
             //If everything went well it will call the route ObtainSource that we declared before
-            return new CreatedAtRouteResult("ObtainResource", new { id = author.Id}, author);
+            return new CreatedAtRouteResult("ObtainAuthor", new { id = authorDTO.Id}, authorDTO);
         }
 
         [HttpPut("{id}")]
