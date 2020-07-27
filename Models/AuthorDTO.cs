@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace LibraryDemoApi.Models
 {
-    public class AuthorDTO
+    public class AuthorDTO : Resource
     {
         public int Id { get; set; }
         [StartWithCapital]

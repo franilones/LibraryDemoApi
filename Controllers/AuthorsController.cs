@@ -30,14 +30,27 @@ namespace LibraryDemoApi.Controllers
             this.mapper = mapper;
         }
 
-        [HttpGet]
+        [HttpGet (Name = "ObtainAuthors")]
         [ServiceFilter(typeof(FilterDemo))]
-        public ActionResult<IEnumerable<AuthorDTO>> Get()
+        public IActionResult Get(bool hateoas = false)
         {
             logger.LogInformation("Getting actors");
             var authors = context.Authors.Include(x => x.Books).ToList();
             var authorsDTO = mapper.Map<List<AuthorDTO>>(authors);
-            return authorsDTO;
+
+            if (hateoas)
+            {
+                authorsDTO.ForEach(A => GenerateLink(A));
+
+                var result = new ResourceCollection<AuthorDTO>(authorsDTO);
+                result.Links.Add(new Link(Url.Link("ObtainAuthors", new { }), "self", "GET"));
+                result.Links.Add(new Link(Url.Link("CreateAuthor", new { }), "new-author", "POST"));
+
+                return Ok(result);
+            }
+            
+
+            return Ok(authorsDTO);
         }
 
         [HttpGet("{id}", Name = "ObtainAuthor")]
@@ -52,10 +65,20 @@ namespace LibraryDemoApi.Controllers
             }
 
             var authorDTO = mapper.Map<AuthorDTO>(author);
+
+            GenerateLink(authorDTO);
             return authorDTO;
         }
 
-        [HttpPost]
+        private void GenerateLink(AuthorDTO author)
+        {
+            author.Links.Add(new Link(Url.Link("ObtainAuthor", new { id = author.Id }), "self", "GET"));
+            author.Links.Add(new Link(Url.Link("UpdateAuthor", new { id = author.Id }), "update-author", "PUT"));
+            author.Links.Add(new Link(Url.Link("DeleteAuthor", new { id = author.Id }), "delete-author", "DELETE"));
+
+        }
+
+        [HttpPost(Name = "CreateAuthor")]
         public async Task<ActionResult> Post([FromBody] AuthorCreateDTO authorCreate)
         {
             var author = mapper.Map<Author>(authorCreate);
@@ -66,7 +89,7 @@ namespace LibraryDemoApi.Controllers
             return new CreatedAtRouteResult("ObtainAuthor", new { id = authorDTO.Id}, authorDTO);
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("{id}", Name = "UpdateAuthor")]
         public async Task<ActionResult> Put(int id, [FromBody] AuthorCreateDTO authorDTO)
         {
             var author = mapper.Map<Author>(authorDTO);
@@ -108,7 +131,8 @@ namespace LibraryDemoApi.Controllers
             return NoContent();
         }
 
-        [HttpDelete("{id}")]
+
+        [HttpDelete("{id}", Name = "DeleteAuthor")]
         public async Task<ActionResult<Author>> Delete(int id)
         {
             var authorId = await context.Authors.Select(x => x.Id).FirstOrDefaultAsync(x => x == id);
