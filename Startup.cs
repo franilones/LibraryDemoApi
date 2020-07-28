@@ -16,6 +16,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.OpenApi.Models;
 
 namespace LibraryDemoApi
 {
@@ -48,11 +49,25 @@ namespace LibraryDemoApi
 
             services.AddScoped<FilterDemo>();
 
+            services.AddSwaggerGen(config =>
+            {
+                config.SwaggerDoc("V1", new OpenApiInfo { Title = "LibraryDemo", Version = "V1" });
+                //config.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
+
+            });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseSwagger();
+
+            app.UseSwaggerUI(config =>
+            {
+                config.SwaggerEndpoint("/swagger/swagger.json", "LibraryDemo V1");
+            });
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

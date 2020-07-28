@@ -57,4 +57,9 @@ C:\Users\Fran\Documents\Projects\LibraryDemoApi\bin\Debug\netcoreapp3.1\Newtonso
 C:\Users\Fran\Documents\Projects\LibraryDemoApi\bin\Debug\netcoreapp3.1\AutoMapper.dll
 C:\Users\Fran\Documents\Projects\LibraryDemoApi\bin\Debug\netcoreapp3.1\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
 C:\Users\Fran\Documents\Projects\LibraryDemoApi\obj\Debug\netcoreapp3.1\LibraryDemoApi.csproj.CoreCompileInputs.cache
+C:\Users\Fran\Documents\Projects\LibraryDemoApi\obj\Debug\netcoreapp3.1\LibraryDemoApi.MvcApplicationPartsAssemblyInfo.cs
 C:\Users\Fran\Documents\Projects\LibraryDemoApi\obj\Debug\netcoreapp3.1\LibraryDemoApi.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\Fran\Documents\Projects\LibraryDemoApi\bin\Debug\netcoreapp3.1\Microsoft.OpenApi.dll
+C:\Users\Fran\Documents\Projects\LibraryDemoApi\bin\Debug\netcoreapp3.1\Swashbuckle.AspNetCore.Swagger.dll
+C:\Users\Fran\Documents\Projects\LibraryDemoApi\bin\Debug\netcoreapp3.1\Swashbuckle.AspNetCore.SwaggerGen.dll
+C:\Users\Fran\Documents\Projects\LibraryDemoApi\bin\Debug\netcoreapp3.1\Swashbuckle.AspNetCore.SwaggerUI.dll
